@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ngnix-deployment
+  labels:
+    author: felix
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      author: felix
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        author: felix
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+      affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: slave_id
+                      operator: In
+                      values:
+                        - slave1
+...
+
+
+
+
